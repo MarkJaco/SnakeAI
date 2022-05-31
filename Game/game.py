@@ -21,9 +21,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.current_frame = 0
         # init game objects
-        self.cell_width = 25
+        self.cell_width = 40
         self.grid = grid.Grid(self.width, self.height, self.cell_width, self.screen)
-        self.snake = snake.Snake(self.width / 2, self.height / 2, self.cell_width, self.screen)
+        self.snake = snake.Snake(0, 0, self.cell_width, self.screen)
         self.food = []
 
     #################
@@ -47,6 +47,7 @@ class Game:
             # move the snake
             if self.current_frame % 10 == 0:
                 self.snake.move(dt)
+                self.handle_collision()
 
     def draw(self):
         """
@@ -58,9 +59,9 @@ class Game:
         self.grid.draw()
         # draw the food
         for f in self.food:
-            f.draw()
+            f.draw(self.cell_width)
         # draw the snake
-        self.snake.draw()
+        self.snake.draw(self.cell_width)
         # Flip the display
         pygame.display.flip()
 
@@ -88,12 +89,22 @@ class Game:
         spawn_chance_per_frame = 0.01
         if random.random() < spawn_chance_per_frame:
             food_type = random.choice([food.Apple, food.Bomb])
-            random_x = random.randrange(int(self.width / self.cell_width)) * self.cell_width
-            random_y = random.randrange(int(self.height / self.cell_width)) * self.cell_width
+            random_x = random.randrange(int(self.width / self.cell_width))
+            random_y = random.randrange(int(self.height / self.cell_width))
             random_food = food_type(random_x, random_y, self.cell_width, self.screen)
             self.food.append(random_food)
 
-
+    def handle_collision(self):
+        """
+        handles snake collision with food etc.
+        :return: None
+        """
+        collided_with = self.snake.collision_detection(self.food)
+        if collided_with == "edge" or collided_with == "itself":
+            self.running = False
+            return
+        if collided_with:
+            print(collided_with)
 
 if __name__ == "__main__":
     game = Game(1000, 800)

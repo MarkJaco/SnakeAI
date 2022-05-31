@@ -22,12 +22,12 @@ class Food:
         self.image_path = ""
         self.image = None
 
-    def draw(self):
+    def draw(self, c_width):
         """
         draw the food on the pygame screen
         """
         # pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
-        self.screen.blit(self.image, (self.x, self.y))
+        self.screen.blit(self.image, (self.x * c_width, self.y * c_width))
 
 
 class Apple(Food):
