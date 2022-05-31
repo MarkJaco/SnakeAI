@@ -5,6 +5,7 @@ import random
 import pygame
 import food
 import snake
+import grid
 
 
 # init pygame
@@ -20,7 +21,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.current_frame = 0
         # init game objects
-        self.snake = snake.Snake(self.width / 2, self.height / 2, 30, self.screen)
+        self.cell_width = 25
+        self.grid = grid.Grid(self.width, self.height, self.cell_width, self.screen)
+        self.snake = snake.Snake(self.width / 2, self.height / 2, self.cell_width, self.screen)
         self.food = []
 
     #################
@@ -51,6 +54,8 @@ class Game:
         """
         # Fill the background with white
         self.screen.fill((255, 255, 255))
+        # draw the underlying grid
+        self.grid.draw()
         # draw the food
         for f in self.food:
             f.draw()
@@ -83,9 +88,9 @@ class Game:
         spawn_chance_per_frame = 0.01
         if random.random() < spawn_chance_per_frame:
             food_type = random.choice([food.Apple, food.Bomb])
-            random_x = random.randrange(self.width)
-            random_y = random.randrange(self.height)
-            random_food = food_type(random_x, random_y, self.screen)
+            random_x = random.randrange(int(self.width / self.cell_width)) * self.cell_width
+            random_y = random.randrange(int(self.height / self.cell_width)) * self.cell_width
+            random_food = food_type(random_x, random_y, self.cell_width, self.screen)
             self.food.append(random_food)
 
 

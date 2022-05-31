@@ -12,12 +12,12 @@ import pygame
 
 
 class Food:
-    def __init__(self, x, y, screen):
+    def __init__(self, x, y, radius, screen):
         self.x = x
         self.y = y
         self.screen = screen
         self.color = (0, 255, 0)
-        self.radius = 30
+        self.radius = radius
         self.effect = ""
         self.image_path = ""
         self.image = None
@@ -31,17 +31,16 @@ class Food:
 
 
 class Apple(Food):
-    def __init__(self, x, y, screen):
-        super().__init__(x, y, screen)
+    def __init__(self, x, y, radius, screen):
+        super().__init__(x, y, radius, screen)
         self.image_path = "images/apple.png"
         self.image = pygame.image.load(self.image_path)
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
 
 
 class Bomb(Food):
-    def __init__(self, x, y, screen):
-        super().__init__(x, y, screen)
+    def __init__(self, x, y, radius, screen):
+        super().__init__(x, y, radius, screen)
         self.image_path = "images/bomb.png"
         self.image = pygame.image.load(self.image_path)
-        self.radius = 50
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
