@@ -25,6 +25,9 @@ class Game:
         while self.running:
             self.handle_events()
             self.draw()
+            
+            # randomly spawn new food
+            self.spawn_food()
 
     def draw(self):
         """
@@ -56,6 +59,11 @@ class Game:
         randomly spawn food on the game map
         """
         spawn_chance_per_frame = 0.001
+        if random.random() < spawn_chance_per_frame:
+            random_x = random.randrange(self.width)
+            random_y = random.randrange(self.height)
+            random_food = food.Food(random_x, random_y, self.screen)
+            self.food.append(random_food) 
 
 
 
