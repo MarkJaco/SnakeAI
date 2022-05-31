@@ -80,11 +80,11 @@ class Game:
         """
         randomly spawn food on the game map
         """
-        spawn_chance_per_frame = 0.001
+        spawn_chance_per_frame = 0.01
         if random.random() < spawn_chance_per_frame:
             random_x = random.randrange(self.width)
             random_y = random.randrange(self.height)
-            random_food = food.Food(random_x, random_y, self.screen)
+            random_food = food.Apple(random_x, random_y, self.screen)
             self.food.append(random_food) 
 
 

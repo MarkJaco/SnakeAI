@@ -61,3 +61,14 @@ class Snake:
             if event.key == pygame.K_DOWN:
                 if self.movement_direction != (0, -1):
                     self.movement_direction = (0, 1)
+
+    def collision_detection(self, food):
+        """
+        detect if the snake has collided with one of:
+            - itself
+            - edge
+            - food
+        :param food: list of all foods currently on the map
+        :return: the object it collided with, ("edge" for edge), (None for nothing)
+        """
+        return
