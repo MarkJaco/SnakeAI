@@ -82,10 +82,11 @@ class Game:
         """
         spawn_chance_per_frame = 0.01
         if random.random() < spawn_chance_per_frame:
+            food_type = random.choice([food.Apple, food.Bomb])
             random_x = random.randrange(self.width)
             random_y = random.randrange(self.height)
-            random_food = food.Apple(random_x, random_y, self.screen)
-            self.food.append(random_food) 
+            random_food = food_type(random_x, random_y, self.screen)
+            self.food.append(random_food)
 
 
 
