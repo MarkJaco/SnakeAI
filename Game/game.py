@@ -4,6 +4,7 @@ The main game file for making the snake game
 import random
 import pygame
 import food
+import snake
 
 
 # init pygame
@@ -16,18 +17,33 @@ class Game:
         self.height = height
         self.screen = pygame.display.set_mode([width, height])
         self.running = False
+        self.clock = pygame.time.Clock()
+        self.current_frame = 0
         # init game objects
-        self.snake = None
+        self.snake = snake.Snake(self.width / 2, self.height / 2, 30, self.screen)
         self.food = []
+
+    #################
+    # SETUP METHODS #
+    #################
 
     def run(self):
         self.running = True
         while self.running:
+            # manage the fps
+            self.current_frame += 1
+            dt = self.clock.tick(60)
+            
+            # setup
             self.handle_events()
             self.draw()
             
             # randomly spawn new food
             self.spawn_food()
+
+            # move the snake
+            if self.current_frame % 10 == 0:
+                self.snake.move(dt)
 
     def draw(self):
         """
@@ -38,6 +54,8 @@ class Game:
         # draw the food
         for f in self.food:
             f.draw()
+        # draw the snake
+        self.snake.draw()
         # Flip the display
         pygame.display.flip()
 
@@ -68,5 +86,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game(800, 800)
+    game = Game(1000, 800)
     game.run()
