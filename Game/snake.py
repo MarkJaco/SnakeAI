@@ -39,3 +39,25 @@ class Snake:
                 break
             pos = self.previous_positions[-x]
             pygame.draw.rect(self.screen, self.color, (pos[0], pos[1], self.width, self.width))
+
+    def handle_events(self, event):
+        """
+        handle pygame input events such as key presses
+        :param event: the current occuring pygame event
+        :return: None
+        """
+        # get key presses
+        if event.type == pygame.KEYDOWN:
+            # change direction based on arrow keys
+            if event.key == pygame.K_LEFT:
+                if self.movement_direction != (1, 0):
+                    self.movement_direction = (-1, 0)
+            if event.key == pygame.K_RIGHT:
+                if self.movement_direction != (-1, 0):
+                    self.movement_direction = (1, 0)
+            if event.key == pygame.K_UP:
+                if self.movement_direction != (0, 1):
+                    self.movement_direction = (0, -1)
+            if event.key == pygame.K_DOWN:
+                if self.movement_direction != (0, -1):
+                    self.movement_direction = (0, 1)

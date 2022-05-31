@@ -64,9 +64,13 @@ class Game:
         handle all pygame events such as mouse clicks
         :return: None
         """
+        # handle game events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+        
+            # handle snake events
+            self.snake.handle_events(event)
 
     ################
     # GAME METHODS #
