@@ -104,7 +104,6 @@ class Game:
             self.running = False
             return
         if isinstance(collided_with, food.Food):
-            print(collided_with)
             self.handle_food_effect(collided_with)
 
     def handle_food_effect(self, collided_with):

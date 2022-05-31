@@ -15,6 +15,21 @@ class Snake:
         self.current_length = 5
         self.movement_direction = (1, 0)
         self.previous_positions = []
+        self.setup_images()
+        self.current_image = self.head_image_right
+
+    def setup_images(self):
+        """
+        setup the snake images
+        """
+        head_image_path = "images/snake_head_up.png"
+        self.head_image_up = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
+        head_image_path = "images/snake_head_down.png"
+        self.head_image_down = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
+        head_image_path = "images/snake_head_right.png"
+        self.head_image_right = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
+        head_image_path = "images/snake_head_left.png"
+        self.head_image_left = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
 
     def move(self, dt):
         """
@@ -33,7 +48,8 @@ class Snake:
         :return: None
         """
         # draw head
-        pygame.draw.rect(self.screen, self.color, (self.x * c_width, self.y * c_width, self.width, self.width))
+        # pygame.draw.rect(self.screen, self.color, (self.x * c_width, self.y * c_width, self.width, self.width))
+        self.screen.blit(self.current_image, (self.x * c_width, self.y * c_width))
         # draw body
         for i in range(1, self.current_length):
             if len(self.previous_positions) < i:
@@ -53,15 +69,19 @@ class Snake:
             if event.key == pygame.K_LEFT:
                 if self.movement_direction != (1, 0):
                     self.movement_direction = (-1, 0)
+                    self.current_image = self.head_image_left
             if event.key == pygame.K_RIGHT:
                 if self.movement_direction != (-1, 0):
                     self.movement_direction = (1, 0)
+                    self.current_image = self.head_image_right
             if event.key == pygame.K_UP:
                 if self.movement_direction != (0, 1):
                     self.movement_direction = (0, -1)
+                    self.current_image = self.head_image_up
             if event.key == pygame.K_DOWN:
                 if self.movement_direction != (0, -1):
                     self.movement_direction = (0, 1)
+                    self.current_image = self.head_image_down
 
     def collision_detection(self, food):
         """
