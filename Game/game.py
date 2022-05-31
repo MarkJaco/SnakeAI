@@ -103,8 +103,23 @@ class Game:
         if collided_with == "edge" or collided_with == "itself":
             self.running = False
             return
-        if collided_with:
+        if isinstance(collided_with, food.Food):
             print(collided_with)
+            self.handle_food_effect(collided_with)
+
+    def handle_food_effect(self, collided_with):
+        """
+        after colliding with a certain type of food
+        apply the food effect to the game
+        :param collided_with: the food that was collided with
+        :return: None
+        """
+        self.food.remove(collided_with)
+        if collided_with.effect == "death":
+            self.running = False
+        elif collided_with.effect == "increase length":
+            self.snake.current_length += 1
+
 
 if __name__ == "__main__":
     game = Game(1000, 800)

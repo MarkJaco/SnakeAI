@@ -36,6 +36,7 @@ class Apple(Food):
         self.image_path = "images/apple.png"
         self.image = pygame.image.load(self.image_path)
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
+        self.effect = "increase length"
 
 
 class Bomb(Food):
@@ -44,3 +45,4 @@ class Bomb(Food):
         self.image_path = "images/bomb.png"
         self.image = pygame.image.load(self.image_path)
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
+        self.effect = "death"
