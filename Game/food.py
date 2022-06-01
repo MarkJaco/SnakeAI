@@ -8,6 +8,7 @@ Parameters:
     y: the y position ot spawn the food
     screen: the pygame screen to draw on
 """
+import os
 import pygame
 
 
@@ -19,7 +20,9 @@ class Food:
         self.color = (0, 255, 0)
         self.radius = radius
         self.effect = ""
-        self.image_path = ""
+        # images
+        self.script_dir = os.path.dirname(__file__)
+        self.image_path = os.path.join(self.script_dir + "\\" + "images" + "\\")
         self.image = None
 
     def draw(self, c_width):
@@ -33,7 +36,7 @@ class Food:
 class Apple(Food):
     def __init__(self, x, y, radius, screen):
         super().__init__(x, y, radius, screen)
-        self.image_path = "images/apple.png"
+        self.image_path = self.image_path + "apple.png"
         self.image = pygame.image.load(self.image_path)
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
         self.effect = "increase length"
@@ -42,7 +45,7 @@ class Apple(Food):
 class Bomb(Food):
     def __init__(self, x, y, radius, screen):
         super().__init__(x, y, radius, screen)
-        self.image_path = "images/bomb.png"
+        self.image_path = self.image_path + "bomb.png"
         self.image = pygame.image.load(self.image_path)
         self.image = pygame.transform.scale(self.image, (self.radius, self.radius))
         self.effect = "death"

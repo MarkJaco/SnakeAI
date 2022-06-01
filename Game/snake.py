@@ -3,6 +3,7 @@ Module contains the snake class
 The snake can move around the map either through player input or with AI
 """
 import pygame
+import os
 
 
 class Snake:
@@ -15,6 +16,9 @@ class Snake:
         self.current_length = 5
         self.movement_direction = (1, 0)
         self.previous_positions = []
+        # images
+        self.script_dir = os.path.dirname(__file__)
+        self.image_path = os.path.join(self.script_dir + "\\" + "images" + "\\")
         self.setup_images()
         self.current_image = self.head_image_right
 
@@ -22,14 +26,14 @@ class Snake:
         """
         setup the snake images
         """
-        head_image_path = "images/snake_head_up.png"
-        self.head_image_up = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
-        head_image_path = "images/snake_head_down.png"
-        self.head_image_down = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
-        head_image_path = "images/snake_head_right.png"
-        self.head_image_right = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
-        head_image_path = "images/snake_head_left.png"
-        self.head_image_left = pygame.transform.scale(pygame.image.load(head_image_path), (self.width, self.width))
+        head_image = "snake_head_up.png"
+        self.head_image_up = pygame.transform.scale(pygame.image.load(self.image_path + head_image), (self.width, self.width))
+        head_image = "snake_head_down.png"
+        self.head_image_down = pygame.transform.scale(pygame.image.load(self.image_path + head_image), (self.width, self.width))
+        head_image = "snake_head_right.png"
+        self.head_image_right = pygame.transform.scale(pygame.image.load(self.image_path + head_image), (self.width, self.width))
+        head_image = "snake_head_left.png"
+        self.head_image_left = pygame.transform.scale(pygame.image.load(self.image_path + head_image), (self.width, self.width))
 
     def move(self, dt):
         """
