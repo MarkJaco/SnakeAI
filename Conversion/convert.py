@@ -12,7 +12,8 @@ def pygame_to_list(screen):
     of RGB values, stored as BGR
     This replaces having to store the image and using cv2 for loading
     :param screen: the pygame screen to convert
-    :return: list of rows of RGB values for the pixels
+    :return: list of rows of RGB values for the pixels 
+             returns as np array
     """
     width, height = screen.get_size()
     
@@ -21,7 +22,11 @@ def pygame_to_list(screen):
         row = []
         for x in range(width):
             color = screen.get_at((x, y))
+            # convert to cv2
+            color = (color.b, color.g, color.r)
             row.append(color)
         return_list.append(row)
+    
+    return_arr = np.array(return_list)
 
-    return return_list
+    return return_arr
