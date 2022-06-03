@@ -63,10 +63,10 @@ class Game:
             if self.current_frame % 10 == 0:
                 self.snake.move(dt)
                 self.handle_collision()
-
-            # call external function
-            if self.external_function:
-                self.external_function(*self.func_parameters)
+            if self.current_frame % 100 == 0:
+                # call external function
+                if self.external_function:
+                    self.external_function(*self.func_parameters)
 
     def draw(self):
         """
