@@ -13,6 +13,5 @@ if __name__ == "__main__":
 
     # run the snake game
     main_game = game.Game(1000, 800)
-    main_game.add_external_function(main_game.screen)
     main_game.data_collector = collector
     main_game.run()

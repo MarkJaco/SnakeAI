@@ -27,7 +27,7 @@ class Game:
         self.food = []
         # other input
         self.data_collector = None
-        self.labels = None
+        self.labels = []
 
     #################
     # SETUP METHODS #
@@ -55,7 +55,7 @@ class Game:
             # collect data for the AI
             if self.current_frame % 100 == 0:
                 if self.data_collector:
-                    self.data_collector.get_screen_data(self.screen)
+                    self.labels = self.data_collector.get_screen_data(self.screen)
 
     def draw(self):
         """
@@ -70,6 +70,9 @@ class Game:
             f.draw(self.cell_width)
         # draw the snake
         self.snake.draw(self.cell_width)
+        # draw the found labels
+        for l in self.labels:
+            l.draw(self.cell_width)
         # Flip the display
         pygame.display.flip()
 
