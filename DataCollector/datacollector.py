@@ -62,14 +62,11 @@ class DataCollector:
         pygame.image.save(screen, self.screenshot_path + "screenshot.png")
         game_img = cv2.imread(self.screenshot_path + "screenshot.png", cv2.IMREAD_UNCHANGED)
 
-        print("---------------------")
-
         # get apples
         result = cv2.matchTemplate(game_img, self.apple_img, cv2.TM_CCOEFF_NORMED)
         yloc, xloc = np.where(result >= self.threshold)
         xnew, ynew = self.group_findings(xloc, yloc)
         for (x, y) in zip(xnew, ynew):
-            print("Apple At: ", x, y)
             l = Label(x, y, "Apple", screen)
             labels.append(l)
 
@@ -78,7 +75,6 @@ class DataCollector:
         yloc, xloc = np.where(result >= self.threshold)
         xnew, ynew = self.group_findings(xloc, yloc)
         for (x, y) in zip(xnew, ynew):
-            print("Bomb at: ", x, y)
             l = Label(x, y, "Bomb", screen)
             l.color = (255, 255, 0)
             labels.append(l)

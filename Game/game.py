@@ -62,7 +62,7 @@ class Game:
         draw all objects on pygame screen
         """
         # Fill the background with white
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((0, 250, 154))
         # draw the underlying grid
         self.grid.draw()
         # draw the food

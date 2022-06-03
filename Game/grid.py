@@ -13,9 +13,10 @@ class Grid:
         self.colors = [(0, 250, 154), (143, 188, 143)]
 
     def draw(self):
-        color_index = 0
+        draw = True
         for x in range(0, self.width, self.cell_width):
-            color_index = 1 if color_index == 0 else 0
             for y in range(0, self.height, self.cell_width):
-                pygame.draw.rect(self.screen, self.colors[color_index], (x, y, self.cell_width, self.cell_width))
-                color_index = 1 if color_index == 0 else 0
+                if draw:
+                    pygame.draw.rect(self.screen, self.colors[1], (x, y, self.cell_width, self.cell_width))
+                draw = not draw
+            draw = not draw
