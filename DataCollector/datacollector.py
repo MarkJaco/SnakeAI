@@ -6,6 +6,7 @@ import os
 import cv2
 import pygame
 from pathlib import Path
+from .label import Label
 
 
 class DataCollector:
@@ -53,8 +54,10 @@ class DataCollector:
         """
         get the screen data to recognize objects
         :param screen: the pygame screen to detect object on
-        :return: None
+        :return: list of label objects
         """
+        labels = []
+
         # make and load image of current game state
         pygame.image.save(screen, self.screenshot_path + "screenshot.png")
         game_img = cv2.imread(self.screenshot_path + "screenshot.png", cv2.IMREAD_UNCHANGED)
@@ -63,15 +66,22 @@ class DataCollector:
         result = cv2.matchTemplate(game_img, self.apple_img, cv2.TM_CCOEFF_NORMED)
         yloc, xloc = np.where(result >= self.threshold)
         xnew, ynew = self.group_findings(xloc, yloc)
-        self.draw_labels(xnew, ynew, "Apple", (255, 0, 0), self.apple_img, screen)
+        for (x, y) in zip(xnew, ynew):
+            l = Label(x, y, self.apple_img.shape[1], self.apple_img.shape[0], "Apple", screen)
+            labels.append(l)
 
         # get bombs
         result = cv2.matchTemplate(game_img, self.bomb_img, cv2.TM_CCOEFF_NORMED)
         yloc, xloc = np.where(result >= self.threshold)
         xnew, ynew = self.group_findings(xloc, yloc)
-        self.draw_labels(xnew, ynew, "Bomb", (255, 255, 0), self.bomb_img, screen)
+        for (x, y) in zip(xnew, ynew):
+            l = Label(x, y, self.bomb_img.shape[1], self.bomb_img.shape[0], "Bomb", screen)
+            l.color = (255, 255, 0)
+            labels.append(l)
 
         # get snakehead
+
+        return labels
 
     def draw_labels(self, xlocations, ylocations, label, color, img, screen):
         """

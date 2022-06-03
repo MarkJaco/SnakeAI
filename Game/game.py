@@ -26,18 +26,8 @@ class Game:
         self.snake = Snake(0, 0, self.cell_width, self.screen)
         self.food = []
         # other input
-        self.external_function = None
-        self.func_parameters = None
-
-    def add_external_function(self, func, *args):
-        """
-        add external function that is to be called in the run loop
-        :param func: the function that is to be executed
-        :param args: the parameters to run the function
-        :return: None
-        """
-        self.external_function = func
-        self.func_parameters = args
+        self.data_collector = None
+        self.labels = None
 
     #################
     # SETUP METHODS #
@@ -61,10 +51,11 @@ class Game:
             if self.current_frame % 10 == 0:
                 self.snake.move(dt)
                 self.handle_collision()
+            
+            # collect data for the AI
             if self.current_frame % 100 == 0:
-                # call external function
-                if self.external_function:
-                    self.external_function(*self.func_parameters)
+                if self.data_collector:
+                    self.data_collector.get_screen_data(self.screen)
 
     def draw(self):
         """
