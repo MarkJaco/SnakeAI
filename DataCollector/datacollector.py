@@ -63,13 +63,33 @@ class DataCollector:
         result = cv2.matchTemplate(game_img, self.apple_img, cv2.TM_CCOEFF_NORMED)
         yloc, xloc = np.where(result >= self.threshold)
         xnew, ynew = self.group_findings(xloc, yloc)
-        print("apples at:")
-        for x, y in zip(xnew, ynew):
-            print(x, y)
+        self.draw_labels(xnew, ynew, "Apple", (255, 0, 0), self.apple_img, screen)
 
         # get bombs
         result = cv2.matchTemplate(game_img, self.bomb_img, cv2.TM_CCOEFF_NORMED)
         yloc, xloc = np.where(result >= self.threshold)
+        xnew, ynew = self.group_findings(xloc, yloc)
+        self.draw_labels(xnew, ynew, "Bomb", (255, 255, 0), self.bomb_img, screen)
 
         # get snakehead
+
+    def draw_labels(self, xlocations, ylocations, label, color, img, screen):
+        """
+        draws boxes around identified objects and labels them
+        :param xlocations: x locations of the objects
+        :param ylocations: y locations of the objects to label
+        :param label: what to label as (string)
+        :param color: rgb color of box as (r, g, b) tuple
+        :param img: the image that was used to identify the objects
+        :param screen: the pygame screen to draw on
+        :return: None
+        """
+        width = img.shape[1]
+        height = img.shape[0]
+        for (x, y) in zip(xlocations, ylocations):
+            print(f"drawing rect: {(x, y, width, height)}")
+            pygame.draw.rect(screen, color, (x, y, width, height), 5)
+
+        
+
     
