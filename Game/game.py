@@ -46,8 +46,6 @@ class Game:
     def run(self):
         self.running = True
         while self.running:
-            if self.current_frame == 1000:
-                return
             # manage the fps
             self.current_frame += 1
             dt = self.clock.tick(60)

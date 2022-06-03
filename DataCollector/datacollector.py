@@ -1,6 +1,7 @@
 """
 Module collects data for object recognition
 """
+import numpy as np
 import os
 import cv2
 import pygame
@@ -23,6 +24,30 @@ class DataCollector:
         self.snakehead_right_img = cv2.imread(self.detection_path + "snake_head_right.png", cv2.IMREAD_UNCHANGED)
         self.snakehead_up_img = cv2.imread(self.detection_path + "snake_head_up.png", cv2.IMREAD_UNCHANGED)
         self.snakehead_down_img = cv2.imread(self.detection_path + "snake_head_down.png", cv2.IMREAD_UNCHANGED)
+        # other
+        self.threshold = 0.6
+
+    def group_findings(self, xloc, yloc):
+        """
+        group recognised objects so that one object is not recognised
+        multiple times
+        :param xloc: the x locations of the found objects
+        :param yloc: the y locations of the found objects
+        :return: (xnew, ynew) holding only the relevant locations
+        """
+        if len(xloc) == 0:
+            return [], []
+        xnew = [xloc[0]]
+        ynew = [yloc[0]]
+        for (x, y) in zip(xloc, yloc):
+            xdifference, ydifference = 0, 0
+            for i in range(len(xnew)):
+                xdifference = abs(xnew[i] - x)
+                ydifference = abs(ynew[i] - y)
+            if xdifference + ydifference >= 20:
+                xnew.append(x)
+                ynew.append(y)
+        return xnew, ynew
 
     def get_screen_data(self, screen):
         """
@@ -30,6 +55,21 @@ class DataCollector:
         :param screen: the pygame screen to detect object on
         :return: None
         """
+        # make and load image of current game state
         pygame.image.save(screen, self.screenshot_path + "screenshot.png")
         game_img = cv2.imread(self.screenshot_path + "screenshot.png", cv2.IMREAD_UNCHANGED)
+
+        # get apples
+        result = cv2.matchTemplate(game_img, self.apple_img, cv2.TM_CCOEFF_NORMED)
+        yloc, xloc = np.where(result >= self.threshold)
+        xnew, ynew = self.group_findings(xloc, yloc)
+        print("apples at:")
+        for x, y in zip(xnew, ynew):
+            print(x, y)
+
+        # get bombs
+        result = cv2.matchTemplate(game_img, self.bomb_img, cv2.TM_CCOEFF_NORMED)
+        yloc, xloc = np.where(result >= self.threshold)
+
+        # get snakehead
     
