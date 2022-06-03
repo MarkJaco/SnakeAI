@@ -27,6 +27,6 @@ def pygame_to_list(screen):
             row.append(color)
         return_list.append(row)
     
-    return_arr = np.array(return_list)
-
+    # return_arr = np.array(return_list)
+    return_arr = return_list
     return return_arr
